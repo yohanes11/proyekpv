@@ -1,0 +1,242 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace pokemaze
+{
+    public partial class Form10 : Form
+    {
+        public Form10()
+        {
+            InitializeComponent();
+        }
+
+        int x = 1115;
+        int y = 215;
+        int ctr = 0;
+        Bitmap[] ch = new Bitmap[4];
+        Image imgbackground = Image.FromFile("background.png");
+        Rectangle pohon1 = new Rectangle(480 + 450, 80, 165, 25);//w1
+        Rectangle pohon2 = new Rectangle(480 + 450, 25 + 80, 65, 35);
+        Rectangle pohon3 = new Rectangle(480 + 450, 0 + 80, 35, 300);//w2
+        Rectangle pohon4 = new Rectangle(480 + 450, 275 + 80, 198, 25);
+        Rectangle pohon5 = new Rectangle(35 + 480 + 450, 90 + 80, 30, 125);//w
+        Rectangle pohon6 = new Rectangle(35 + 480 + 450, 245 + 80, 30, 30);
+        Rectangle pohon7 = new Rectangle(65 + 480 + 450, 135 + 80, 30, 65);
+        Rectangle pohon8 = new Rectangle(235 + 480 + 450, 0 + 80, 165, 30);
+        Rectangle pohon9 = new Rectangle(368 + 480 + 450, 0 + 80, 32, 400);
+        Rectangle pohon10 = new Rectangle(235 + 480 + 450, 245 + 80, 140, 60);
+        Rectangle pohon11 = new Rectangle(235 + 480 + 450, 215 + 80, 30, 30);
+        Rectangle pohon12 = new Rectangle(300 + 480 + 450, 30 + 80, 60, 30);//w
+        Rectangle pohon13 = new Rectangle(335 + 480 + 450, 60 + 80, 30, 30);
+        Rectangle pohon14 = new Rectangle(335 + 480 + 450, 215 + 80, 35, 30);
+        Rectangle pohon15 = new Rectangle(218 + 480 + 450, 88 + 80, 30, 70);
+        Rectangle pohon16 = new Rectangle(250 + 480 + 450, 100 + 80, 30, 40);
+
+        private void Form10_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            Font f = new Font("courier new", 12, FontStyle.Regular);
+            Font f1 = new Font("comic sans", 30, FontStyle.Regular);
+            SolidBrush b = new SolidBrush(Color.Black);
+            g.DrawImage(imgbackground, 0, 0, this.Width, this.Height);
+            g.DrawImage(Resource1.awsd, 160 + 200, 150, 200, 200);
+            g.DrawImage(Resource1.esc_5_551021, 390 , 365, 75, 75);
+            g.DrawString("Move Up", f, b, 220 + 200, 130);
+            g.DrawString("Move Left", f, b, 70 + 200, 260);
+            g.DrawString("Move Down", f, b, 210 + 200, 315);
+            g.DrawString("Move Right", f, b, 360 + 200, 260);
+            g.DrawString("Press ", f1, b, 280, 380);
+            g.DrawString("To Go Back", f1, b, 460, 380);
+            g.DrawString("Power Up", f1, b, 280, 450);
+            g.DrawImage(Resource1.pokemerah, 290, 500, 50, 50);
+            g.DrawString("Teleport", f1, b, 340, 500);
+            g.DrawImage(Resource1.pokebiru, 290, 560, 50, 50);
+            g.DrawString("Speed Up", f1, b, 340, 560);
+            g.DrawImage(Resource1.pokekuning, 290, 620, 50, 50);
+            g.DrawString("Minus Time", f1, b, 340, 620);
+            g.DrawString("Beware!! These Can Kill You!!", f1, b, 700, 450);
+            g.DrawImage(Resource1.b3, 720, 500, 50, 50);
+            g.DrawImage(Resource1.bawa3, 770, 500, 50, 50);
+            g.DrawImage(Resource1.bawah3, 820, 500, 50, 50);
+            g.DrawImage(Resource1.bwh3, 870, 500, 50, 50);
+            g.DrawString("These Are Your Lives", f1, b, 700, 550);
+            g.DrawImage(Resource1.hati, 720, 600, 50, 50);
+            g.DrawImage(Resource1.hati, 780, 600, 50, 50);
+            g.DrawImage(Resource1.hati, 840, 600, 50, 50);
+            //g.DrawString("Pro Tips", f1, b, 1300, 450);
+            Rectangle player = new Rectangle(x, y, 30, 30);
+            g.DrawImage(Resource1._381_3814424_click_me_png, 1350, 300, 150, 150);
+
+            Pen pen = new Pen(Color.Black);
+            g.DrawImage(Resource1.bgtutor, 480+450, 80, 400, 300);
+
+            //g.DrawRectangle(pen, player);
+            //g.DrawRectangle(pen, pohon1);
+            //g.DrawRectangle(pen, pohon2);
+            //g.DrawRectangle(pen, pohon3);
+            //g.DrawRectangle(pen, pohon4);
+            //g.DrawRectangle(pen, pohon5);
+            //g.DrawRectangle(pen, pohon6);
+            //g.DrawRectangle(pen, pohon7);
+            //g.DrawRectangle(pen, pohon8);
+            //g.DrawRectangle(pen, pohon9);
+            //g.DrawRectangle(pen, pohon10);
+            //g.DrawRectangle(pen, pohon11);
+            //g.DrawRectangle(pen, pohon12);
+            //g.DrawRectangle(pen, pohon13);
+            //g.DrawRectangle(pen, pohon14);
+            //g.DrawRectangle(pen, pohon15);
+            //g.DrawRectangle(pen, pohon16);
+            
+            g.DrawImage(ch[ctr], x, y, 30, 30);
+        }
+
+        private void Form10_Load(object sender, EventArgs e)
+        {
+            ch[0] = new Bitmap(Resource1.ba1);
+            ch[1] = new Bitmap(Resource1.ba2);
+            ch[2] = new Bitmap(Resource1.ba1);
+            ch[3] = new Bitmap(Resource1.ba3);
+            label1.BackColor = Color.Transparent;
+        }
+
+        private void Form10_MouseClick(object sender, MouseEventArgs e)
+        {
+            //MessageBox.Show(e.X + "  " +  e.Y + "");
+        }
+
+        private void Form10_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            Rectangle player = new Rectangle(x, y, 30, 30);
+            if (e.KeyChar == (Char)Keys.Escape)
+            {
+                Loginawal md = (Loginawal)this.MdiParent;
+                md.panel1.Visible = true;
+                md.btn_exit.Visible = true;
+                this.Close();
+            }
+            if (e.KeyChar == Convert.ToChar("s") || e.KeyChar == Convert.ToChar("S"))
+            {
+                ctr++;
+                if (ctr > 3)
+                {
+                    ctr = 0;
+                }
+                if (player.IntersectsWith(pohon15)|| player.IntersectsWith(pohon16)
+                    || player.IntersectsWith(pohon4)|| player.IntersectsWith(pohon5)
+                    || player.IntersectsWith(pohon6)|| player.IntersectsWith(pohon7)
+                     || player.IntersectsWith(pohon11) || player.IntersectsWith(pohon14)
+                      || player.IntersectsWith(pohon10))
+                {
+                    y = y-5;
+                }
+                else if (y <350)
+                {
+                    y += 5;
+                }
+                ch[0] = new Bitmap(Resource1.ba1);
+                ch[1] = new Bitmap(Resource1.ba2);
+                ch[2] = new Bitmap(Resource1.ba1);
+                ch[3] = new Bitmap(Resource1.ba3);
+                this.Refresh();
+            }
+            else if (e.KeyChar == Convert.ToChar("w") || e.KeyChar == Convert.ToChar("W"))
+            {
+                ctr++;
+                if (ctr > 3)
+                {
+                    ctr = 0;
+                }
+                if(player.IntersectsWith(pohon1)||(player.IntersectsWith(pohon8))
+                    || (player.IntersectsWith(pohon5))||(player.IntersectsWith(pohon12))
+                    || (player.IntersectsWith(pohon13))|| (player.IntersectsWith(pohon15))
+                    || (player.IntersectsWith(pohon16)) || (player.IntersectsWith(pohon7))
+                    || (player.IntersectsWith(pohon2)))
+                 {
+                    y = y+5;
+                }
+                else if (y > 80)
+                {
+                    y -= 5;
+                }
+ 
+                ch[0] = new Bitmap(Resource1.at1);
+                ch[1] = new Bitmap(Resource1.at2);
+                ch[2] = new Bitmap(Resource1.at1);
+                ch[3] = new Bitmap(Resource1.at3);
+                this.Refresh();
+            }
+
+            //ke kiri
+            else if (e.KeyChar == Convert.ToChar("a") || e.KeyChar == Convert.ToChar("A"))
+            {
+                ctr++;
+                if (ctr > 3)
+                {
+                    ctr = 0;
+                }
+                //if (player.IntersectsWith(pohon4))
+                //{
+                //    x = x;
+                //    y = y;
+                //}
+                if (player.IntersectsWith(pohon1)|| player.IntersectsWith(pohon2)
+                    || player.IntersectsWith(pohon3) || player.IntersectsWith(pohon7)
+                    || player.IntersectsWith(pohon4) || player.IntersectsWith(pohon5)
+                    || player.IntersectsWith(pohon6) || player.IntersectsWith(pohon16)
+                    || player.IntersectsWith(pohon11))
+                {
+                    x = x+5;
+                }
+                else if (x > 970)
+                {
+                    x -= 5;
+                }
+                ch[0] = new Bitmap(Resource1.ki1);
+                ch[1] = new Bitmap(Resource1.ki2);
+                ch[2] = new Bitmap(Resource1.ki1);
+                ch[3] = new Bitmap(Resource1.ki3);
+                this.Refresh();
+            }
+
+            //ke kanan
+            else if (e.KeyChar == Convert.ToChar("d") || e.KeyChar == Convert.ToChar("D"))
+            {
+                ctr++;
+                if (ctr > 3)
+                {
+                    ctr = 0;
+                }
+                if (player.IntersectsWith(pohon8) || player.IntersectsWith(pohon12)
+                    || player.IntersectsWith(pohon13) || player.IntersectsWith(pohon10)
+                    || player.IntersectsWith(pohon14) || player.IntersectsWith(pohon11)
+                    || player.IntersectsWith(pohon15))
+                {
+                    x = x-5;
+                }
+                else if (x <= 1260)
+                {
+                    x += 5;
+                }
+                ch[0] = new Bitmap(Resource1.ka1);
+                ch[1] = new Bitmap(Resource1.ka2);
+                ch[2] = new Bitmap(Resource1.ka1);
+                ch[3] = new Bitmap(Resource1.ka3);
+                this.Refresh();
+            }
+            
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("You Can't Swim!!");
+        }
+    }
+}
