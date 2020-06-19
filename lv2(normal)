@@ -1,0 +1,1654 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using WMPLib;
+using System.Data.Sql;
+using System.Data.SqlClient;
+
+namespace pokemaze
+{
+    public partial class Form8 : Form
+    {
+        WindowsMediaPlayer musik = new WindowsMediaPlayer();
+        SqlConnection sccn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" +
+               (Application.StartupPath) + "\\main.mdf;Integrated Security=True");
+        public Form7 easy;
+        public Form8()
+        {
+            InitializeComponent();
+            musik.URL = "game2.mp3";
+        }
+
+        public int hati = 3;
+        public int menit = 0;
+        public int detik = 0;
+        public int ctrhati = 0;
+        int a = 0;
+
+        int xmusuh = 311;
+        int ymusuh = 378;
+        int xmusuh2 = 676;
+        int ymusuh2 = 501;
+        int xmusuh3 = 866;
+        int ymusuh3 = 341;
+        int xmusuh4 = 1105;
+        int ymusuh4 = 700;
+        //int xmusuh5 = 740;
+        //int ymusuh5 = 642;
+        int movement = 5;
+        int movement2 = 5;
+        int movement3 = 5;
+        int movement4 = 5;
+        int movement5 = 5;
+        int ctrr = 0;
+        int cepat = 1;
+        int kena = 0; int tampung = 0;
+        Bitmap bg;
+        Bitmap[] ch;
+        Bitmap[] chr;
+        Bitmap[] chrmusuh2;
+        Bitmap[] chrmusuh3;
+        Bitmap[] chrmusuh4;
+        //Bitmap[] chrmusuh5;
+        int ctr, x, y;
+        Random rnd = new Random();
+        public System.Timers.Timer timer2;
+        public System.Timers.Timer timer3;
+        bool kuning = true;
+        bool biru = true;
+        public string nama = "";
+        private void Form8_Load(object sender, EventArgs e)
+        {
+            x = 280;
+            y = 740;
+            bg = new Bitmap(Resource1.background2);
+            ch = new Bitmap[4];
+            timer2 = new System.Timers.Timer();
+            timer2.Interval = 1000;
+            timer2.Elapsed += timer1_Tick;
+            timer2.Start();
+            timer3 = new System.Timers.Timer();
+            timer3.Interval = 100;
+            timer3.Elapsed += Timer3_Elapsed;
+            timer3.Start();
+            ch[0] = new Bitmap(Resource1.ba1);
+
+            musik.controls.play();
+            ctr = 0;
+            chr = new Bitmap[4];
+            chrmusuh2 = new Bitmap[4];
+            chrmusuh3 = new Bitmap[4];
+            chrmusuh4 = new Bitmap[4];
+            //chrmusuh5 = new Bitmap[4];
+
+
+            chr[0] = new Bitmap(Resource1.kanan1);
+            chr[1] = new Bitmap(Resource1.kanan2);
+            chr[2] = new Bitmap(Resource1.kanan3);
+            chr[3] = new Bitmap(Resource1.kanan4);
+
+            chrmusuh2[0] = new Bitmap(Resource1.bawa1);
+            chrmusuh2[1] = new Bitmap(Resource1.bawa2);
+            chrmusuh2[2] = new Bitmap(Resource1.bawa3);
+            chrmusuh2[3] = new Bitmap(Resource1.bawa4);
+
+            chrmusuh3[0] = new Bitmap(Resource1.b1);
+            chrmusuh3[1] = new Bitmap(Resource1.b2);
+            chrmusuh3[2] = new Bitmap(Resource1.b3);
+            chrmusuh3[3] = new Bitmap(Resource1.b4);
+
+            chrmusuh4[0] = new Bitmap(Resource1.kanann1);
+            chrmusuh4[1] = new Bitmap(Resource1.kanann2);
+            chrmusuh4[2] = new Bitmap(Resource1.kanann3);
+            chrmusuh4[3] = new Bitmap(Resource1.kanann4);
+
+            //chrmusuh5[0] = new Bitmap(Resource1.image_3_1);
+            //chrmusuh5[1] = new Bitmap(Resource1.image_3_2);
+            //chrmusuh5[2] = new Bitmap(Resource1.image_3_3);
+            //chrmusuh5[3] = new Bitmap(Resource1.image_3_4);
+
+        }
+
+        private void Timer3_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            ctrr++;
+            if (ctrr >= 3)
+            {
+                ctrr = 0;
+            }
+            xmusuh += movement;
+            ymusuh2 += movement2;
+            ymusuh3 += movement3;
+            xmusuh4 += movement4;
+            //xmusuh5 += movement5;
+            if (xmusuh <= 310)
+            {
+                movement *= -1;
+                chr[0] = new Bitmap(Resource1.kanan1);
+                chr[1] = new Bitmap(Resource1.kanan2);
+                chr[2] = new Bitmap(Resource1.kanan3);
+                chr[3] = new Bitmap(Resource1.kanan4);
+            }
+            else if (xmusuh >= 400)
+            {
+                movement *= -1;
+                chr[0] = new Bitmap(Resource1.kiri1);
+                chr[1] = new Bitmap(Resource1.kiri2);
+                chr[2] = new Bitmap(Resource1.kiri3);
+                chr[3] = new Bitmap(Resource1.kiri4);
+            }
+
+            if (ymusuh2 <= 490)
+            {
+                movement2 *= -1;
+                chrmusuh2[0] = new Bitmap(Resource1.bawa1);
+                chrmusuh2[1] = new Bitmap(Resource1.bawa2);
+                chrmusuh2[2] = new Bitmap(Resource1.bawa3);
+                chrmusuh2[3] = new Bitmap(Resource1.bawa4);
+
+            }
+            else if (ymusuh2 >= 575)
+            {
+                movement2 *= -1;
+                chrmusuh2[0] = new Bitmap(Resource1.ata1);
+                chrmusuh2[1] = new Bitmap(Resource1.ata2);
+                chrmusuh2[2] = new Bitmap(Resource1.ata3);
+                chrmusuh2[3] = new Bitmap(Resource1.ata4);
+            }
+
+            if (ymusuh3 <= 328)
+            {
+                movement3 *= -1;
+                chrmusuh3[0] = new Bitmap(Resource1.b1);
+                chrmusuh3[1] = new Bitmap(Resource1.b2);
+                chrmusuh3[2] = new Bitmap(Resource1.b3);
+                chrmusuh3[3] = new Bitmap(Resource1.b4);
+
+            }
+            else if (ymusuh3 >= 443)
+            {
+                movement3 *= -1;
+                chrmusuh3[0] = new Bitmap(Resource1.a1);
+                chrmusuh3[1] = new Bitmap(Resource1.a2);
+                chrmusuh3[2] = new Bitmap(Resource1.a3);
+                chrmusuh3[3] = new Bitmap(Resource1.a4);
+            }
+
+            if (xmusuh4 <= 1086)
+            {
+                movement4 *= -1;
+                chrmusuh4[0] = new Bitmap(Resource1.kanann1);
+                chrmusuh4[1] = new Bitmap(Resource1.kanann2);
+                chrmusuh4[2] = new Bitmap(Resource1.kanann3);
+                chrmusuh4[3] = new Bitmap(Resource1.kanann4);
+
+            }
+            else if (xmusuh4 >= 1285)
+            {
+                movement4 *= -1;
+                chrmusuh4[0] = new Bitmap(Resource1.kirii1);
+                chrmusuh4[1] = new Bitmap(Resource1.kirii2);
+                chrmusuh4[2] = new Bitmap(Resource1.kirii3);
+                chrmusuh4[3] = new Bitmap(Resource1.kirii4);
+            }
+            //if (xmusuh5 <= 738)
+            //{
+            //    movement5 *= -1;
+            //    chrmusuh5[0] = new Bitmap(Resource1.image_3_1);
+            //    chrmusuh5[1] = new Bitmap(Resource1.image_3_2);
+            //    chrmusuh5[2] = new Bitmap(Resource1.image_3_3);
+            //    chrmusuh5[3] = new Bitmap(Resource1.image_3_4);
+
+            //}
+            //else if (xmusuh5 >= 865)
+            //{
+            //    movement5 *= -1;
+            //    chrmusuh5[0] = new Bitmap(Resource1.image_2_1);
+            //    chrmusuh5[1] = new Bitmap(Resource1.image_2_2);
+            //    chrmusuh5[2] = new Bitmap(Resource1.image_2_3);
+            //    chrmusuh5[3] = new Bitmap(Resource1.image_2_4);
+            //}
+            Invalidate();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            detik++;
+            if (detik == 60)
+            {
+                menit++;
+                detik = 0;
+            }
+            if (cepat == 2)
+            {
+                tampung++;
+                if (tampung == 5)
+                {
+                    cepat = 1;
+                }
+            }
+            Invalidate();
+        }
+
+        private void Form8_MouseClick(object sender, MouseEventArgs e)
+        {
+            //x = e.X;
+            //y = e.Y;
+            //MessageBox.Show(x + "X" + y + "Y");
+        }
+
+        Rectangle pohon1 = new Rectangle(0, 720 - 20, 155, 80);
+        Rectangle pohon2 = new Rectangle(155, 765 - 20, 77, 35);
+        Rectangle pohon3 = new Rectangle(0, 679 - 20, 43, 25);
+        Rectangle pohon4 = new Rectangle(38, 610 - 20, 43, 25);
+        Rectangle pohon5 = new Rectangle(0, 498 - 10, 268, 112);
+        Rectangle pohon6 = new Rectangle(387, 724 - 20, 41, 25);
+        Rectangle pohon7 = new Rectangle(428, 703 - 20, 78, 22);
+        Rectangle pohon8 = new Rectangle(583, 703 - 20, 37, 22);
+        Rectangle pohon10 = new Rectangle(623, 612 - 20, 37, 114);
+        Rectangle pohon11 = new Rectangle(269, 612 - 20, 354, 2);
+        Rectangle pohon12 = new Rectangle(429, 725 - 20, 33, 75);
+        Rectangle pohon13 = new Rectangle(463, 769 - 20, 43, 25);
+        Rectangle pohon14 = new Rectangle(463, 795 - 20, 433, 5);
+        Rectangle pohon15 = new Rectangle(895, 650 - 20, 75, 150);
+        Rectangle pohon16 = new Rectangle(970, 605 - 20, 75, 195);
+        Rectangle pohon17 = new Rectangle(1045, 567 - 10, 40, 233);
+        Rectangle pohon18 = new Rectangle(660, 628 - 20, 78, 98);
+        Rectangle pohon19 = new Rectangle(930, 612 - 20, 40, 22);
+        Rectangle pohon20 = new Rectangle(893, 566 - 10, 150, 3);
+        Rectangle pohon21 = new Rectangle(740, 498 - 10, 185, 69);
+        Rectangle pohon22 = new Rectangle(622, 498 - 10, 117, 3);
+        Rectangle pohon23 = new Rectangle(620, 453 - 10, 35, 45);
+        Rectangle pohon25 = new Rectangle(311, 588 - 15, 40, 23);
+        Rectangle pohon26 = new Rectangle(0, 356 - 10, 310, 142);
+        Rectangle pohon27 = new Rectangle(428, 452 - 10, 190, 2);
+        Rectangle pohon28 = new Rectangle(268, 520 - 15, 44, 23);
+        Rectangle pohon29 = new Rectangle(428, 317 - 10, 35, 135);
+        Rectangle pohon30 = new Rectangle(0, 310 - 10, 233, 47);
+        Rectangle pohon31 = new Rectangle(0, 0 - 10, 77, 310);
+        Rectangle pohon32 = new Rectangle(77, 0 - 10, 77, 135);
+        Rectangle pohon33 = new Rectangle(154, 37 - 10, 77, 98);
+        Rectangle pohon34 = new Rectangle(232, 82 - 10, 385, 47);
+        Rectangle pohon35 = new Rectangle(313, 129 - 10, 345, 47);
+        Rectangle pohon36 = new Rectangle(430, 176 - 10, 228, 47);
+        Rectangle pohon37 = new Rectangle(584, 224 - 10, 74, 47);
+        Rectangle pohon38 = new Rectangle(464, 317 - 10, 40, 23);
+        Rectangle pohon39 = new Rectangle(583, 316 - 10, 76, 24);
+        Rectangle pohon40 = new Rectangle(660, 90 - 10, 38, 250);
+        Rectangle pohon41 = new Rectangle(699, 105 - 10, 240, 142);
+        Rectangle pohon42 = new Rectangle(699, 247 - 10, 40, 23);
+        Rectangle pohon43 = new Rectangle(778, 248 - 10, 161, 45);
+        Rectangle pohon44 = new Rectangle(855, 293 - 10, 77, 47);
+        Rectangle pohon45 = new Rectangle(815, 316 - 10, 40, 23);
+        Rectangle pohon46 = new Rectangle(1390, 316 - 10, 85, 2);
+        Rectangle pohon47 = new Rectangle(1475, 318 - 10, 60, 482);
+        Rectangle pohon48 = new Rectangle(1397, 447 - 20, 78, 353);
+        Rectangle pohon49 = new Rectangle(1319, 720 - 20, 77, 80);
+        Rectangle pohon50 = new Rectangle(1244, 765 - 20, 75, 35);
+        Rectangle pohon51 = new Rectangle(1086, 765 - 20, 75, 35);
+        Rectangle pohon52 = new Rectangle(1204, 656 - 20, 35, 25);
+        Rectangle pohon53 = new Rectangle(1358, 450 - 15, 39, 25);
+        Rectangle pohon54 = new Rectangle(1163, 474 - 15, 39, 25);
+        Rectangle pohon55 = new Rectangle(1125, 542 - 15, 39, 25);
+        Rectangle pohon56 = new Rectangle(932, 400 - 15, 75, 97);
+        Rectangle pohon57 = new Rectangle(1012, 423 - 15, 75, 97);
+        Rectangle pohon58 = new Rectangle(1160, 790 - 20, 85, 2);
+        Rectangle kolam = new Rectangle(941, 138 - 10, 450, 180);
+
+
+        private void Form8_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            Font f = new Font("courier new", 30, FontStyle.Regular);
+            SolidBrush b = new SolidBrush(Color.Black);
+            Pen pen = new Pen(Color.Black);
+            g.DrawImage(bg, 0, 0, this.Width, this.Height);
+            g.DrawImage(ch[ctr], x, y, 35, 35);
+            g.DrawImage(chr[ctrr], xmusuh, ymusuh, 35, 35);
+            g.DrawImage(chrmusuh2[ctrr], xmusuh2, ymusuh2, 35, 35);
+            g.DrawImage(chrmusuh3[ctrr], xmusuh3, ymusuh3, 35, 35);
+            g.DrawImage(chrmusuh4[ctrr], xmusuh4, ymusuh4, 35, 35);
+            //g.DrawImage(chrmusuh5[ctrr], xmusuh5, ymusuh5, 35, 35);
+            Rectangle player = new Rectangle(x, y, 35, 35);
+            //g.DrawRectangle(Pens.Black, player);
+
+            //pokeballmerah
+            Rectangle pokemerah = new Rectangle(534, 397 - 10, 25, 25);
+            //g.DrawRectangle(pen, pokemerah);
+            g.DrawImage(Resource1.pokemerah, 534, 397 - 10, 25, 25);
+
+            //pokeballbiru
+            Rectangle pokebiru = new Rectangle(1129, 613 - 10, 25, 25);
+            //g.DrawRectangle(pen, pokebiru);
+            if (biru == true)
+            {
+                g.DrawImage(Resource1.pokebiru, 1129, 613 - 10, 25, 25);
+            }
+
+
+
+
+            //pokeballkuning
+            Rectangle pokekuning = new Rectangle(314, 548 - 10, 25, 25);
+            //g.DrawRectangle(pen, pokekuning);
+            if (kuning == true)
+            {
+                g.DrawImage(Resource1.pokekuning, 314, 548 - 10, 25, 25);
+            }
+
+
+            if (pokemerah.IntersectsWith(player))
+            {
+                int hasil = rnd.Next(3);
+                if (hasil == 0)
+                {
+                    x = 57;
+                    y = 640;
+                }
+                else if (hasil == 1)
+                {
+                    x = 974;
+                    y = 573;
+                }
+                else if (hasil == 2)
+                {
+                    x = 546;
+                    y = 402;
+                }
+            }
+
+            if (pokebiru.IntersectsWith(player))
+            {
+                cepat = 2;
+                tampung = 0;
+                biru = false;
+            }
+
+            if (pokekuning.IntersectsWith(player))
+            {
+                if (kena == 0)
+                {
+                    detik -= 5;
+                    kena = 1;
+                }
+                kuning = false;
+            }
+
+
+            //g.DrawRectangle(Pens.Black, pohon1);
+            //g.DrawString("1", f,b,0,700);
+            //
+            //
+            //g.DrawRectangle(Pens.Black, pohon2);
+            //g.DrawString("2", f, b, 155, 765 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon3);
+            //g.DrawString("3", f, b, 0, 679 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon4);
+            //g.DrawString("4", f, b, 38, 610 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon5);
+            //g.DrawString("5", f, b, 0, 498 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon6);
+            //g.DrawString("6", f, b, 387, 724 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon7);
+            //g.DrawString("7", f, b, 428, 703 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon8);
+            //g.DrawString("8", f, b, 583, 703 - 20);
+            //
+            //
+            //g.DrawRectangle(Pens.Black, pohon10);
+            //g.DrawString("10", f, b, 623, 612 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon11);
+            //g.DrawString("11", f, b, 269, 612 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon12);
+            //g.DrawString("12", f, b, 429, 725 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon13);
+            //g.DrawString("13", f, b, 463, 769 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon14);
+            //g.DrawString("14", f, b, 463, 795 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon15);
+            //g.DrawString("15", f, b, 895, 650 - 20);
+            //
+            //g.DrawRectangle(Pens.Black,pohon16);
+            //g.DrawString("16", f, b, 970, 605 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon17);
+            //g.DrawString("17", f, b, 1045, 567 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon18);
+            //g.DrawString("18", f, b, 660, 628 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon19);
+            //g.DrawString("19", f, b, 930, 612 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon20);
+            //g.DrawString("20", f, b, 893, 566 - 10);
+            //
+            //
+            //g.DrawRectangle(Pens.Black, pohon21);
+            //g.DrawString("21", f, b, 740, 498 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon22);
+            //g.DrawString("22", f, b, 622, 498 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon23);
+            //g.DrawString("23", f, b, 620, 453 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon25);
+            //g.DrawString("25", f, b, 311, 588 - 25);
+            //
+            //g.DrawRectangle(Pens.Black, pohon26);
+            //g.DrawString("26", f, b, 0, 356 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon27);
+            //g.DrawString("27", f, b, 428, 452 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon28);
+            //g.DrawString("28", f, b, 268, 520 - 25);
+            //
+            //g.DrawRectangle(Pens.Black, pohon29);
+            //g.DrawString("29", f, b, 428, 317 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon30);
+            //g.DrawString("30", f, b, 0, 310 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon31);
+            //g.DrawString("31", f, b, 0, 0 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon32);
+            //g.DrawString("32", f, b, 77, 0 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon33);
+            //g.DrawString("33", f, b, 154, 37 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon34);
+            //g.DrawString("34", f, b, 232, 82 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon35);
+            //g.DrawString("35", f, b, 313, 129 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon36);
+            //g.DrawString("36", f, b, 430, 176 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon37);
+            //g.DrawString("37", f, b, 584, 224 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon38);
+            //g.DrawString("38", f, b, 464, 317 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon39);
+            //g.DrawString("39", f, b, 583, 316 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon40);
+            //g.DrawString("40", f, b, 660, 90 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon41);
+            //g.DrawString("41", f, b, 699, 105 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon42);
+            //g.DrawString("42", f, b, 699, 247 - 20);
+            //
+            //
+            //g.DrawRectangle(Pens.Black, pohon43);
+            //g.DrawString("43", f, b, 778, 248 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon44);
+            //g.DrawString("44", f, b, 855, 293 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon45);
+            //g.DrawString("45", f, b, 815, 316 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon46);
+            //g.DrawString("46", f, b, 1390, 316 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon47);
+            //g.DrawString("47", f, b, 1475, 318 - 10);
+            //
+            //g.DrawRectangle(Pens.Black, pohon48);
+            //g.DrawString("48", f, b, 1397, 447 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon49);
+            //g.DrawString("49", f, b, 1319, 720 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon50);
+            //g.DrawString("50", f, b, 1244, 765 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon51);
+            //g.DrawString("51", f, b, 1086, 765 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon52);
+            //g.DrawString("52", f, b, 1204, 656 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon53);
+            //g.DrawString("53", f, b, 1358, 450 - 15);
+            //
+            //g.DrawRectangle(Pens.Black, pohon54);
+            //g.DrawString("54", f, b, 1163, 474 - 15);
+            //
+            //g.DrawRectangle(Pens.Black, pohon55);
+            //g.DrawString("55", f, b, 1125, 542 - 15);
+            //
+            //g.DrawRectangle(Pens.Black, pohon56);
+            //g.DrawString("56", f, b, 932, 400 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon57);
+            //g.DrawString("57", f, b, 1012, 423 - 20);
+            //
+            //g.DrawRectangle(Pens.Black, pohon58);
+            //g.DrawString("58", f, b, 1160, 790 - 20);
+
+            Rectangle musuh1 = new Rectangle(xmusuh, ymusuh, 40, 40);
+            //g.DrawRectangle(Pens.Black, musuh1);
+
+            Rectangle musuh2 = new Rectangle(xmusuh2, ymusuh2, 40, 40);
+            //g.DrawRectangle(pen, musuh2);
+
+            Rectangle musuh3 = new Rectangle(xmusuh3, ymusuh3, 40, 40);
+            //g.DrawRectangle(pen, musuh3);
+
+            Rectangle musuh4 = new Rectangle(xmusuh4, ymusuh4, 40, 40);
+            //g.DrawRectangle(pen, musuh4);
+
+            //Rectangle musuh5 = new Rectangle(xmusuh5, ymusuh5, 40, 40);
+            //g.DrawRectangle(pen, musuh5);
+            //g.DrawRectangle(pen, kolam);
+
+            if (kolam.IntersectsWith(player))
+            {
+                x = 280;
+                y = 740;
+                hati--;
+            }
+
+            if (musuh1.IntersectsWith(player))
+            {
+                x = 280;
+                y = 740;
+                hati--;
+            }
+
+            if (musuh2.IntersectsWith(player))
+            {
+                x = 280;
+                y = 740;
+                hati--;
+            }
+
+            if (musuh3.IntersectsWith(player))
+            {
+                x = 280;
+                y = 740;
+                hati--;
+            }
+
+            if (musuh4.IntersectsWith(player))
+            {
+                x = 280;
+                y = 740;
+                hati--;
+            }
+            if (hati == 0)
+            {
+                sccn.Open();
+                Loginawal md = (Loginawal)this.MdiParent;
+                md.panel1.Visible = true;
+                MessageBox.Show("Game Over");
+                string sql = "insert into score values(@a,@b,@c,@d,@e,@f)";
+                SqlCommand sqlins = new SqlCommand(sql, sccn);
+                sqlins.Parameters.AddWithValue("@a", nama);
+                sqlins.Parameters.AddWithValue("@b", "2");
+                sqlins.Parameters.AddWithValue("@c", "Normal");
+                sqlins.Parameters.AddWithValue("@d", "2");
+                sqlins.Parameters.AddWithValue("@e", menit + "");
+                sqlins.Parameters.AddWithValue("@f", detik + "");
+                sqlins.ExecuteNonQuery();
+                sccn.Close();
+                this.Close();
+            }
+            //if (musuh5.IntersectsWith(player))
+            //{
+            //    x = 280;
+            //    y = 740;
+            //    hati--;
+
+            //    if (hati == 0)
+            //    {
+            //        MessageBox.Show("Game Over");
+            //        this.Close();
+            //    }
+            //}
+
+
+
+
+            if (detik < 10)
+            {
+                g.DrawString(":0" + detik, f, b, 1270, 0);
+            }
+            else
+            {
+                g.DrawString(":" + detik, f, b, 1270, 0);
+            }
+
+            if (menit < 10)
+            {
+                g.DrawString("0" + menit + "", f, b, 1220, 0);
+            }
+            else
+            {
+                g.DrawString(menit + "", f, b, 1220, 0);
+            }
+
+
+            for (int i = 0; i < hati; i++)
+            {
+                g.DrawImage(Resource1.hati, 1355 + 55 * ctrhati, 0, 50, 50);
+                ctrhati++;
+            }
+            ctrhati = 0;
+
+            if (pohon1.IntersectsWith(player))
+            {
+                if (y <= 690)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 150)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon2.IntersectsWith(player))
+            {
+                if (y <= 740)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 230)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon3.IntersectsWith(player))
+            {
+                if (y <= 650)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 40)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon4.IntersectsWith(player))
+            {
+                if (x <= 10)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (x >= 80)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 630)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon5.IntersectsWith(player))
+            {
+                if (x >= 260)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 600)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon6.IntersectsWith(player))
+            {
+                if (x <= 360)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 690)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (y >= 740)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon7.IntersectsWith(player))
+            {
+                if (x <= 400)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 670)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 500)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 720)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon8.IntersectsWith(player))
+            {
+                if (x <= 550)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 670)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (y >= 720)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon10.IntersectsWith(player))
+            {
+                if (y <= 580)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (y >= 720)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon11.IntersectsWith(player))
+            {
+                if (y <= 580)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (y >= 610)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon12.IntersectsWith(player))
+            {
+                if (x <= 400)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (x >= 460)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon13.IntersectsWith(player))
+            {
+                if (y <= 740)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 500)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon14.IntersectsWith(player))
+            {
+                if (y <= 770)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+            }
+            if (pohon15.IntersectsWith(player))
+            {
+                if (x <= 870)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 620)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+            }
+            if (pohon16.IntersectsWith(player))
+            {
+                if (y <= 680)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+            }
+            if (pohon17.IntersectsWith(player))
+            {
+                if (x <= 1020)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 540)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 1080)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon18.IntersectsWith(player))
+            {
+                if (y <= 600)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 730)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 720)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon19.IntersectsWith(player))
+            {
+                if (x <= 900)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 580)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+            }
+            if (pohon20.IntersectsWith(player))
+            {
+                if (y <= 540)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (y >= 560)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon21.IntersectsWith(player))
+            {
+                if (x <= 710)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 470)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 920)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 560)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon22.IntersectsWith(player))
+            {
+                if (y <= 470)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (y >= 500)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon23.IntersectsWith(player))
+            {
+                if (x <= 590)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 420)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 650)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon25.IntersectsWith(player))
+            {
+                if (x <= 280)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 560)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 350)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 610)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon26.IntersectsWith(player))
+            {
+                if (y <= 330)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 300)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon27.IntersectsWith(player))
+            {
+                if (y <= 420)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (y >= 450)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon28.IntersectsWith(player))
+            {
+                if (x >= 310)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 540)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon29.IntersectsWith(player))
+            {
+                if (x <= 400)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 290)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 460)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 450)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon30.IntersectsWith(player))
+            {
+                if (y <= 190)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 230)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon31.IntersectsWith(player))
+            {
+                if (x >= 70)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon32.IntersectsWith(player))
+            {
+                if (y >= 130)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon33.IntersectsWith(player))
+            {
+                if (y >= 130)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon34.IntersectsWith(player))
+            {
+                if (y >= 120)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon35.IntersectsWith(player))
+            {
+                if (x <= 280)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y >= 170)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon36.IntersectsWith(player))
+            {
+                if (x <= 400)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y >= 220)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon37.IntersectsWith(player))
+            {
+                if (x <= 550)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y >= 270)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon38.IntersectsWith(player))
+            {
+                if (y <= 290)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 500)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 330)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon39.IntersectsWith(player))
+            {
+                if (x <= 550)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 290)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (y >= 330)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon40.IntersectsWith(player))
+            {
+                if (x <= 630)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (x >= 690)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 330)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon41.IntersectsWith(player))
+            {
+                if (y >= 240)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon42.IntersectsWith(player))
+            {
+                if (x >= 730)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 260)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon43.IntersectsWith(player))
+            {
+                if (x <= 750)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y >= 290)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon44.IntersectsWith(player))
+            {
+                if (y >= 330)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon45.IntersectsWith(player))
+            {
+                if (x <= 790)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y >= 330)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon46.IntersectsWith(player))
+            {
+                if (y >= 310)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon47.IntersectsWith(player))
+            {
+                if (x <= 1450)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+            }
+            if (pohon48.IntersectsWith(player))
+            {
+                if (x <= 1370)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 420)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+            }
+            if (pohon49.IntersectsWith(player))
+            {
+                if (x <= 1290)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 690)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+            }
+            if (pohon50.IntersectsWith(player))
+            {
+                if (x <= 1210)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 740)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+            }
+            if (pohon51.IntersectsWith(player))
+            {
+                if (y <= 740)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 1160)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+            }
+            if (pohon52.IntersectsWith(player))
+            {
+                if (x <= 1170)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 630)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 1230)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 680)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon53.IntersectsWith(player))
+            {
+                if (x <= 1330)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 420)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (y >= 470)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon54.IntersectsWith(player))
+            {
+                if (x <= 1130)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 440)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 1200)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 490)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon55.IntersectsWith(player))
+            {
+                if (x <= 1100)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 510)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 1160)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 560)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon56.IntersectsWith(player))
+            {
+                if (x <= 900)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 370)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 1000)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 490)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon57.IntersectsWith(player))
+            {
+                if (x <= 980)
+                {
+                    player.X -= 10;
+                    x -= 10;
+                }
+                else if (y <= 390)
+                {
+                    player.Y -= 10;
+                    y -= 10;
+                }
+                else if (x >= 1080)
+                {
+                    player.X += 10;
+                    x += 10;
+                }
+                else if (y >= 510)
+                {
+                    player.Y += 10;
+                    y += 10;
+                }
+            }
+            if (pohon58.IntersectsWith(player))
+            {
+                if (a == 0)
+                {
+                    lagu();
+                }
+
+
+            }
+        }
+
+        public void lagu()
+        {
+            Form9 hard = new Form9();
+            //hard.normal = this;
+            hard.MdiParent = this.MdiParent;
+            x = 130;
+            y = 180;
+            hard.nama = this.nama;
+            hard.hati = this.hati;
+            hard.ctrhati = this.ctrhati;
+            hard.detik = this.detik;
+            hard.menit = this.menit;
+            hard.Show();
+            this.Refresh();
+            musik.controls.stop();
+            this.Close();
+            a = 1;
+        }
+
+        private void Form8_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Rectangle player = new Rectangle(x, y, 35, 35);
+            //ke bawah
+            if (e.KeyChar == Convert.ToChar("s") || e.KeyChar == Convert.ToChar("S"))
+            {
+                ctr++;
+                if (ctr > 3)
+                {
+                    ctr = 0;
+                }
+                if (player.IntersectsWith(pohon1) || player.IntersectsWith(pohon2)
+                    || player.IntersectsWith(pohon3) || player.IntersectsWith(pohon6)
+                    || player.IntersectsWith(pohon7) || player.IntersectsWith(pohon8)
+                    || player.IntersectsWith(pohon13) || player.IntersectsWith(pohon18)
+                    || player.IntersectsWith(pohon10) || player.IntersectsWith(pohon15)
+                    || player.IntersectsWith(pohon16) || player.IntersectsWith(pohon17)
+                    || player.IntersectsWith(pohon20) || player.IntersectsWith(pohon21)
+                    || player.IntersectsWith(pohon22) || player.IntersectsWith(pohon23)
+                    || player.IntersectsWith(pohon25) || player.IntersectsWith(pohon26)
+                    || player.IntersectsWith(pohon27) || player.IntersectsWith(pohon28)
+                    || player.IntersectsWith(pohon30) || player.IntersectsWith(pohon38)
+                    || player.IntersectsWith(pohon39) || player.IntersectsWith(pohon45)
+                    || player.IntersectsWith(pohon48) || player.IntersectsWith(pohon49)
+                    || player.IntersectsWith(pohon50) || player.IntersectsWith(pohon51)
+                    || player.IntersectsWith(pohon52) || player.IntersectsWith(pohon53)
+                    || player.IntersectsWith(pohon54) || player.IntersectsWith(pohon55)
+                    || player.IntersectsWith(pohon29))
+                {
+                    y -= 10 * cepat;
+                }
+                else if (y < 750)
+                {
+                    y += 10 * cepat;
+                }
+                ch[0] = new Bitmap(Resource1.ba1);
+                ch[1] = new Bitmap(Resource1.ba2);
+                ch[2] = new Bitmap(Resource1.ba1);
+                ch[3] = new Bitmap(Resource1.ba3);
+            }
+
+            //ke atas
+            else if (e.KeyChar == Convert.ToChar("w") || e.KeyChar == Convert.ToChar("W"))
+            {
+                ctr++;
+                if (ctr > 3)
+                {
+                    ctr = 0;
+                }
+                if (player.IntersectsWith(pohon4) || player.IntersectsWith(pohon6)
+                     || player.IntersectsWith(pohon11) || player.IntersectsWith(pohon7)
+                     || player.IntersectsWith(pohon8) || player.IntersectsWith(pohon10)
+                     || player.IntersectsWith(pohon18) || player.IntersectsWith(pohon20)
+                     || player.IntersectsWith(pohon21) || player.IntersectsWith(pohon22)
+                     || player.IntersectsWith(pohon28) || player.IntersectsWith(pohon27)
+                     || player.IntersectsWith(pohon32) || player.IntersectsWith(pohon33)
+                     || player.IntersectsWith(pohon34) || player.IntersectsWith(pohon35)
+                     || player.IntersectsWith(pohon36) || player.IntersectsWith(pohon37)
+                     || player.IntersectsWith(pohon39) || player.IntersectsWith(pohon40)
+                     || player.IntersectsWith(pohon41) || player.IntersectsWith(pohon42)
+                     || player.IntersectsWith(pohon43) || player.IntersectsWith(pohon44)
+                     || player.IntersectsWith(pohon45) || player.IntersectsWith(pohon46)
+                     || player.IntersectsWith(pohon52) || player.IntersectsWith(pohon53)
+                     || player.IntersectsWith(pohon54) || player.IntersectsWith(pohon55)
+                     || player.IntersectsWith(pohon56) || player.IntersectsWith(pohon57)
+                     || player.IntersectsWith(pohon38) || player.IntersectsWith(kolam))
+                {
+                    y += 10 * cepat;
+                }
+                else if (y < this.Height - 30)
+                {
+                    y -= 10 * cepat;
+                }
+                ch[0] = new Bitmap(Resource1.at1);
+                ch[1] = new Bitmap(Resource1.at2);
+                ch[2] = new Bitmap(Resource1.at1);
+                ch[3] = new Bitmap(Resource1.at3);
+            }
+
+            //ke kiri
+            else if (e.KeyChar == Convert.ToChar("a") || e.KeyChar == Convert.ToChar("A"))
+            {
+                ctr++;
+                if (ctr > 3)
+                {
+                    ctr = 0;
+                }
+                if (player.IntersectsWith(pohon1) || player.IntersectsWith(pohon2)
+                     || player.IntersectsWith(pohon3) || player.IntersectsWith(pohon4)
+                     || player.IntersectsWith(pohon5) || player.IntersectsWith(pohon7)
+                     || player.IntersectsWith(pohon12) || player.IntersectsWith(pohon13)
+                     || player.IntersectsWith(pohon18) || player.IntersectsWith(pohon10)
+                     || player.IntersectsWith(pohon25) || player.IntersectsWith(pohon28)
+                     || player.IntersectsWith(pohon26) || player.IntersectsWith(pohon30)
+                     || player.IntersectsWith(pohon31) || player.IntersectsWith(pohon29)
+                     || player.IntersectsWith(pohon23) || player.IntersectsWith(pohon21)
+                     || player.IntersectsWith(pohon38) || player.IntersectsWith(pohon40)
+                     || player.IntersectsWith(pohon42) || player.IntersectsWith(pohon44)
+                     || player.IntersectsWith(pohon56) || player.IntersectsWith(pohon57)
+                     || player.IntersectsWith(pohon54) || player.IntersectsWith(pohon55)
+                     || player.IntersectsWith(pohon52) || player.IntersectsWith(pohon51)
+                     || player.IntersectsWith(pohon17))
+                {
+                    x += 10 * cepat;
+                }
+                else if (x > 0)
+                {
+                    x -= 10 * cepat;
+                }
+                ch[0] = new Bitmap(Resource1.ki1);
+                ch[1] = new Bitmap(Resource1.ki2);
+                ch[2] = new Bitmap(Resource1.ki1);
+                ch[3] = new Bitmap(Resource1.ki3);
+            }
+
+            //ke kanan
+            else if (e.KeyChar == Convert.ToChar("d") || e.KeyChar == Convert.ToChar("D"))
+            {
+                ctr++;
+                if (ctr > 3)
+                {
+                    ctr = 0;
+                }
+                if (player.IntersectsWith(pohon7) || player.IntersectsWith(pohon8)
+                     || player.IntersectsWith(pohon10) || player.IntersectsWith(pohon12)
+                     || player.IntersectsWith(pohon13) || player.IntersectsWith(pohon15)
+                     || player.IntersectsWith(pohon17) || player.IntersectsWith(pohon16)
+                     || player.IntersectsWith(pohon19) || player.IntersectsWith(pohon21)
+                     || player.IntersectsWith(pohon23) || player.IntersectsWith(pohon25)
+                     || player.IntersectsWith(pohon29) || player.IntersectsWith(pohon35)
+                     || player.IntersectsWith(pohon36) || player.IntersectsWith(pohon37)
+                     || player.IntersectsWith(pohon39) || player.IntersectsWith(pohon43)
+                     || player.IntersectsWith(pohon45) || player.IntersectsWith(pohon47)
+                     || player.IntersectsWith(pohon49) || player.IntersectsWith(pohon50)
+                     || player.IntersectsWith(pohon52) || player.IntersectsWith(pohon53)
+                     || player.IntersectsWith(pohon54) || player.IntersectsWith(pohon55)
+                     || player.IntersectsWith(pohon56) || player.IntersectsWith(pohon57)
+                     || player.IntersectsWith(pohon44))
+                {
+                    x -= 10 * cepat;
+                }
+                else if (x < 1435)
+                {
+                    x += 10 * cepat;
+                }
+                ch[0] = new Bitmap(Resource1.ka1);
+                ch[1] = new Bitmap(Resource1.ka2);
+                ch[2] = new Bitmap(Resource1.ka1);
+                ch[3] = new Bitmap(Resource1.ka3);
+            }
+            this.Refresh();
+        }
+    }
+}
