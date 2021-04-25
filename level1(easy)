@@ -23,7 +23,7 @@ namespace pokemaze
             InitializeComponent();
             musik.URL = "game2.mp3";
         }
-
+		console.log("baru");
         public int hati = 3;
         public int menit = 0;
         public int detik = 0;
